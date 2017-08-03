@@ -118,7 +118,7 @@ function currentDate() {
   var y = curDate.getFullYear();
   var m = curDate.getMonth() + 1;
   var d = curDate.getDate();
-  date.innerHTML = y + '-' + m + '-' + d + '';
+  date.innerHTML = y + '/' + m + '/' + d + '';
   console.log('日期更新时间：' + curDate);
 }
 

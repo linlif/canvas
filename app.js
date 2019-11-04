@@ -1,3 +1,7 @@
+// 开始时间
+var BEGIN_DATE = '2019-08-01 20:13:14'
+
+
 // 入口js文件
 var WINDOW_WIDTH = 1024;
 var WINDOW_HEIGHT = 500;
@@ -37,11 +41,11 @@ window.onload = function () {
   currentDate();
 
   setInterval(
-      function () {
-        render(context);
-        update();
-      },
-      50
+    function () {
+      render(context);
+      update();
+    },
+    50
   );
 
 };
@@ -114,12 +118,39 @@ function update() {
 // 更新日期
 function currentDate() {
   var date = document.getElementById("date");
-  curDate = new Date();
+  var footer = document.getElementById("footer");
+
+  var m1 = new Date(BEGIN_DATE);
+  var m2 = new Date();
+  var du = moment.duration(moment(m2) - moment(m1), 'ms');
+
+  console.log(m2)
+  console.log(du)
+
+  //  输出结果为“10 分钟”
+  console.log(du.locale('zh-cn'))
+  console.log('year', du.get('year'))
+  console.log('month', du.get('month'))
+  console.log('day', du.get('day'))
+  console.log('hour', du.get('hour'))
+  console.log('minute', du.get('minute'))
+  console.log('second', du.get('second'))
+
+  var curDate = new Date()
   var y = curDate.getFullYear();
   var m = curDate.getMonth() + 1;
   var d = curDate.getDate();
-  date.innerHTML = '现在时间是：' + y + '年' + m + '月' + d + '日';
-  console.log('日期更新时间：' + curDate);
+
+  var begin = new Date(BEGIN_DATE)
+  var y2 = begin.getFullYear();
+  var m2 = begin.getMonth() + 1;
+  var d2 = begin.getDate();
+  var hour = begin.getHours() < 10 ? '0' + begin.getHours() : begin.getHours();
+  var minute = begin.getMinutes() < 10 ? '0' + begin.getMinutes() : begin.getMinutes();
+  var second = begin.getSeconds() < 10 ? '0' + begin.getSeconds() : begin.getSeconds();
+
+  date.innerHTML = '爱你 ' + du.get('year') + ' 年 ' + du.get('month') + ' 月 ' + du.get('day') + ' 日'
+  footer.innerHTML = y2 + ' 年 ' + m2 + ' 月 ' + d2 + ' 日 ' + hour + ':' + minute + ':' + second + ' 至 ' + y + ' 年 ' + m + ' 月 ' + d + ' 日'
 }
 
 // 生成小球

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div>sss</div>
+  <script>
+
+    window.onload = function () {
+      var d1 = new Date('2019-08-01 20:13:14')
+      var d2 = new Date()
+
+      // var time = d2.getTime() - d1.getTime()
+      // var day = parseInt(time / 1000 / 60 / 60 / 24)
+
+
+      var years = d2.getFullYear() - d1.getFullYear()
+      var months = d2.getMonth() - d1.getMonth()
+      var days = d2.getDate() - d1.getDate()
+
+      console.log(getDays(d1, d2))
+      console.log(years)
+      console.log(months)
+      console.log(days)
+
+    }
+
+    function getDays(d1, d2) {
+      var time = d2.getTime() - d1.getTime()
+      var day = Math.floor(time / 1000 / 60 / 60 / 24)
+      return day
+    }
+
+    function getYMD(d1, d2) {
+      var years = d2.getFullYear() - d1.getFullYear()
+      var months = d2.getMonth() - d1.getMonth()
+      var days = d2.getDate() - d1.getDate()
+
+      return { years, months, days }
+    }
+
+
+  </script>
+</body>
+
+</html>

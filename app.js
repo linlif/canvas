@@ -115,41 +115,49 @@ function update() {
 
 }
 
+// 计算两个日期的差值(d2-d1)，返回天数
+function getDays(d1, d2) {
+  var time = +new Date(d2) - +new Date(d1)
+  var days = Math.floor(time / 1000 / 60 / 60 / 24)
+  return days
+}
+
+
+// 获取两个日期的差值(d2-d1)，返回年月日
+function getYMD(d1, d2) {
+  var d1 = new Date(d1)
+  var d2 = new Date(d2)
+  var years = d2.getFullYear() - d1.getFullYear()
+  var months = d2.getMonth() - d1.getMonth()
+  var days = d2.getDate() - d1.getDate()
+
+  return { years, months, days }
+}
+
 // 更新日期
 function currentDate() {
   var date = document.getElementById("date");
   var footer = document.getElementById("footer");
 
-  var m1 = new Date(BEGIN_DATE);
-  var m2 = new Date();
-  var du = moment.duration(moment(m2) - moment(m1), 'ms');
 
-  console.log(m2)
-  console.log(du)
+  var beginDate = new Date(BEGIN_DATE);
+  var curDate = new Date();
 
-  //  输出结果为“10 分钟”
-  console.log(du.locale('zh-cn'))
-  console.log('year', du.get('year'))
-  console.log('month', du.get('month'))
-  console.log('day', du.get('day'))
-  console.log('hour', du.get('hour'))
-  console.log('minute', du.get('minute'))
-  console.log('second', du.get('second'))
-
-  var curDate = new Date()
   var y = curDate.getFullYear();
   var m = curDate.getMonth() + 1;
   var d = curDate.getDate();
 
-  var begin = new Date(BEGIN_DATE)
-  var y2 = begin.getFullYear();
-  var m2 = begin.getMonth() + 1;
-  var d2 = begin.getDate();
-  var hour = begin.getHours() < 10 ? '0' + begin.getHours() : begin.getHours();
-  var minute = begin.getMinutes() < 10 ? '0' + begin.getMinutes() : begin.getMinutes();
-  var second = begin.getSeconds() < 10 ? '0' + begin.getSeconds() : begin.getSeconds();
+  var y2 = beginDate.getFullYear();
+  var m2 = beginDate.getMonth() + 1;
+  var d2 = beginDate.getDate();
+  var hour = beginDate.getHours() < 10 ? '0' + beginDate.getHours() : beginDate.getHours();
+  var minute = beginDate.getMinutes() < 10 ? '0' + beginDate.getMinutes() : beginDate.getMinutes();
+  var second = beginDate.getSeconds() < 10 ? '0' + beginDate.getSeconds() : beginDate.getSeconds();
 
-  date.innerHTML = '爱你 ' + du.get('year') + ' 年 ' + du.get('month') + ' 月 ' + du.get('day') + ' 日'
+  var days = getDays(beginDate, curDate)
+  var ymd = getYMD(beginDate, curDate)
+
+  date.innerHTML = days + '天' + '(' + ymd.years + ' 年 ' + ymd.months + ' 月 ' + ymd.days + ' 日)'
   footer.innerHTML = y2 + ' 年 ' + m2 + ' 月 ' + d2 + ' 日 ' + hour + ':' + minute + ':' + second + ' 至 ' + y + ' 年 ' + m + ' 月 ' + d + ' 日'
 }
 

@@ -213,7 +213,8 @@ function updateBalls() {
 
 function render(context) {
   // 清除矩形达到刷新效果，这里清除整个画布这个矩形
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height + WINDOW_HEIGHT);
+  console.log(context.canvas.height + WINDOW_HEIGHT)
 
   var hours = parseInt(curShowTimeSeconds / 3600);
   var minutes = parseInt((curShowTimeSeconds - hours * 3600) / 60);

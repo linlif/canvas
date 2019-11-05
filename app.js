@@ -1,5 +1,5 @@
 // 开始时间
-var BEGIN_DATE = '2019-08-01 20:13:14'
+// var BEGIN_DATE = '2019-08-01 20:13:14'
 
 
 // 入口js文件
@@ -140,7 +140,7 @@ function currentDate() {
   var footer = document.getElementById("footer");
 
 
-  var beginDate = new Date(BEGIN_DATE);
+  var beginDate = new Date(2019, 07, 01, 20, 13, 14); // 2019-08-01 22:13:14 ，月份要减一
   var curDate = new Date();
 
   var y = curDate.getFullYear();
@@ -203,8 +203,8 @@ function updateBalls() {
       balls[count++] = balls[j];
     }
   }
-
   while (balls.length > Math.min(300, count)) {
+    // console.log('balls > 300 ', balls.length)
     balls.pop();
   }
 
@@ -213,7 +213,7 @@ function updateBalls() {
 
 function render(context) {
   // 清除矩形达到刷新效果，这里清除整个画布这个矩形
-  context.clearRect(0, 0, context.canvas.width, context.canvas.width);
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
   var hours = parseInt(curShowTimeSeconds / 3600);
   var minutes = parseInt((curShowTimeSeconds - hours * 3600) / 60);

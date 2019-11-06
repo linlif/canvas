@@ -18,6 +18,10 @@ var curShowTimeSeconds = 0;
 var balls = [];
 
 const colors = ["#33B5E5", "#0099CC", "#AA66CC", "#9933CC", "#99CC00", "#669900", "#FFBB33", "#FF8800", "#FF4444", "#CC0000"];
+const icons = ["&#xe6c8;", "&#xe626;", "&#xe627;", "&#xe628;", "&#xe629;", "&#xe62a;", "&#xe62b;", "&#xe62c;", "&#xe62d;", "&#xe62e;", "&#xe604;", "&#xe607;", "&#xe749;", "&#xe613;"];
+
+var icon = eval('("' + icons[Math.floor(Math.random() * icons.length)].replace('&#x', '\\u').replace(';', '') + '")')
+var color = colors[Math.floor(Math.random() * colors.length)]
 
 
 window.onload = function () {
@@ -27,9 +31,8 @@ window.onload = function () {
   WINDOW_WIDTH = document.body.clientWidth || document.documentElement.clientWidth;
   WINDOW_HEIGHT = document.body.clientHeight * 0.8 || document.documentElement.clientHeight * 0.8;
 
-  MARGIN_LEFT = Math.round(WINDOW_WIDTH / 10);
+  MARGIN_LEFT = Math.round(WINDOW_WIDTH / 20);
   RADIUS = Math.round(WINDOW_WIDTH * 4 / 5 / 108) - 1;
-
   MARGIN_TOP = Math.round(WINDOW_HEIGHT / 10);
 
   canvas.width = WINDOW_WIDTH;
@@ -47,7 +50,6 @@ window.onload = function () {
     },
     50
   );
-
 };
 
 
@@ -137,6 +139,8 @@ function getYMD(d1, d2) {
 // 更新日期
 function currentDate() {
   var date = document.getElementById("date");
+  date.style.color = color
+  date.style.textAlign = 'center'
   var footer = document.getElementById("footer");
 
 
@@ -157,7 +161,7 @@ function currentDate() {
   var days = getDays(beginDate, curDate)
   var ymd = getYMD(beginDate, curDate)
 
-  date.innerHTML = days + '天' + '(' + ymd.years + ' 年 ' + ymd.months + ' 月 ' + ymd.days + ' 日)'
+  date.innerHTML = days + '天' + '<br/>(' + ymd.years + ' 年 ' + ymd.months + ' 个月 ' + ymd.days + ' 天)'
   footer.innerHTML = y2 + ' 年 ' + m2 + ' 月 ' + d2 + ' 日 ' + hour + ':' + minute + ':' + second + ' 至 ' + y + ' 年 ' + m + ' 月 ' + d + ' 日'
 }
 
@@ -173,7 +177,8 @@ function addBalls(x, y, num) {
           // 产生-4 ~ +4的随机x轴速度
           vx: Math.pow(-1, Math.ceil(Math.random() * 1000)) * 4,
           vy: -5,
-          color: colors[Math.floor(Math.random() * colors.length)]
+          color: colors[Math.floor(Math.random() * colors.length)],
+          icon: icons[Math.floor(Math.random() * icons.length)]
         };
 
         balls.push(aBall);
@@ -214,30 +219,12 @@ function updateBalls() {
 function render(context) {
   // 清除矩形达到刷新效果，这里清除整个画布这个矩形
   context.clearRect(0, 0, context.canvas.width, context.canvas.height + WINDOW_HEIGHT);
-  console.log(context.canvas.height + WINDOW_HEIGHT)
-
-
-
-
-  // context.font = "16px Iconfont";  // 将这里的Arial 设置为自己图标库的名称
-  // var icon = eval('("' + '&#xe6c8;'.replace('&#x', '\\u').replace(';', '') + '")')
-  // context.fillStyle = "#008F36"
-  // context.fillText(icon, 45, 86);
-  // context.fillText(icon, 90, 86);
 
   var hours = parseInt(curShowTimeSeconds / 3600);
   var minutes = parseInt((curShowTimeSeconds - hours * 3600) / 60);
   var seconds = curShowTimeSeconds % 60;
-  // 绘制时钟
-  // renderDigit(MARGIN_LEFT, MARGIN_TOP, parseInt(hours / 10), context);
-  // renderDigit(MARGIN_LEFT + 20 * (RADIUS + 1), MARGIN_TOP, parseInt(hours % 10), context);
-  // renderDigit(MARGIN_LEFT + 45 * (RADIUS + 1), MARGIN_TOP, 10, context);
-  // renderDigit(MARGIN_LEFT + 60 * (RADIUS + 1), MARGIN_TOP, parseInt(minutes / 10), context);
-  // renderDigit(MARGIN_LEFT + 85 * (RADIUS + 1), MARGIN_TOP, parseInt(minutes % 10), context);
-  // renderDigit(MARGIN_LEFT + 120 * (RADIUS + 1), MARGIN_TOP, 10, context);
-  // renderDigit(MARGIN_LEFT + 150 * (RADIUS + 1), MARGIN_TOP, parseInt(seconds / 10), context);
-  // renderDigit(MARGIN_LEFT + 180 * (RADIUS + 1), MARGIN_TOP, parseInt(seconds % 10), context);
 
+  // 绘制时钟
   renderDigit(MARGIN_LEFT, MARGIN_TOP, parseInt(hours / 10), context);
   renderDigit(MARGIN_LEFT + 15 * (RADIUS + 1), MARGIN_TOP, parseInt(hours % 10), context);
   renderDigit(MARGIN_LEFT + 30 * (RADIUS + 1), MARGIN_TOP, 10, context);
@@ -247,37 +234,35 @@ function render(context) {
   renderDigit(MARGIN_LEFT + 78 * (RADIUS + 1), MARGIN_TOP, parseInt(seconds / 10), context);
   renderDigit(MARGIN_LEFT + 93 * (RADIUS + 1), MARGIN_TOP, parseInt(seconds % 10), context);
 
-  // // 绘制小球
-  // for (var i = 0; i < balls.length; i++) {
-  //   //设置颜色
-  //   context.fillStyle = balls[i].color;
-  //   // 开始绘制
-  //   context.beginPath();
-  //   context.arc(balls[i].x, balls[i].y, RADIUS, 0, 2 * Math.PI, true);
-  //   context.closePath();
-  //   // 填充颜色
-  //   context.fill();
-  // }
 
+  context.font = `${RADIUS * 5}px Iconfont`;  // 将这里的 Iconfont 设置为图标库
+
+  // 绘制小球
+  for (var i = 0; i < balls.length; i++) {
+    //设置颜色
+    context.fillStyle = balls[i].color;
+    var icon = eval('("' + balls[i].icon.replace('&#x', '\\u').replace(';', '') + '")')
+
+    // 开始绘制
+    context.beginPath();
+    // context.arc(balls[i].x, balls[i].y, RADIUS, 0, 2 * Math.PI, true);
+    context.fillText(icon, balls[i].x, balls[i].y);
+    context.closePath();
+    // 填充颜色
+    context.fill();
+  }
 }
 
 function renderDigit(x, y, num, context) {
-  // 设置填充颜色
-  context.fillStyle = "rgb(0,102,153)";
-
-  context.font = "5px Iconfont";  // 将这里的Arial 设置为自己图标库的名称
-  var icon = eval('("' + '&#xe6c8;'.replace('&#x', '\\u').replace(';', '') + '")')
-  // context.fillStyle = "#008F36"
-
-
+  context.font = `${RADIUS * 2}px Iconfont`;  // 将这里的Arial 设置为自己图标库的名称
+  context.fillStyle = color;
   // 遍历二维数组
   for (var i = 0; i < digit[num].length; i++) {
     for (var j = 0; j < digit[num][i].length; j++) {
       if (digit[num][i][j] === 1) {
         context.beginPath();
         // context.arc(x + j * 2 * (RADIUS + 1) + (RADIUS + 1), y + i * 2 * (RADIUS + 1) + (RADIUS + 1), RADIUS, 0, 2 * Math.PI);
-        context.fillText(icon, x + j * 5, y + i * 5);
-
+        context.fillText(icon, x + j * 2 * (RADIUS + 1) + (RADIUS + 1), y + i * 2 * (RADIUS + 1) + (RADIUS + 1));
         context.closePath();
         context.fill();
       }

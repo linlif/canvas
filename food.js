@@ -17,8 +17,9 @@ var curShowTimeSeconds = 0;
 // var ball = {x: 2, y: 3, r:20, vx: 3, vy: 3, g: 2, color:"#005588"};
 var balls = [];
 
-const colors = ["#33B5E5", "#0099CC", "#AA66CC", "#9933CC", "#99CC00", "#669900", "#FFBB33", "#FF8800", "#FF4444", "#CC0000"];
-const icons = ["&#xe6c8;", "&#xe626;", "&#xe627;", "&#xe628;", "&#xe629;", "&#xe62a;", "&#xe62b;", "&#xe62c;", "&#xe62d;", "&#xe62e;", "&#xe604;", "&#xe607;", "&#xe749;", "&#xe613;"];
+// const colors = ["#33B5E5", "#0099CC", "#AA66CC", "#9933CC", "#99CC00", "#669900", "#FFBB33", "#FF8800", "#FF4444", "#CC0000"];
+const colors = ["#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#009688","#4CAF50","#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800","#FF5722"]
+const icons = ["&#xe62f;", "&#xe614;", "&#xe610;", "&#xe612;", "&#xe611;", "&#xe606;", "&#xe608;", "&#xe605;", "&#xe613;", "&#xe749;", "&#xe607;", "&#xe62e;", "&#xe62b;","&#xe629;","&#xe627;","&#xe626;"];
 
 var icon = eval('("' + icons[Math.floor(Math.random() * icons.length)].replace('&#x', '\\u').replace(';', '') + '")')
 var color = colors[Math.floor(Math.random() * colors.length)]

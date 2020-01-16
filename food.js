@@ -18,8 +18,8 @@ var curShowTimeSeconds = 0;
 var balls = [];
 
 // const colors = ["#33B5E5", "#0099CC", "#AA66CC", "#9933CC", "#99CC00", "#669900", "#FFBB33", "#FF8800", "#FF4444", "#CC0000"];
-const colors = ["#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#009688","#4CAF50","#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800","#FF5722"]
-const icons = ["&#xe62f;", "&#xe614;", "&#xe610;", "&#xe612;", "&#xe611;", "&#xe606;", "&#xe608;", "&#xe605;", "&#xe613;", "&#xe749;", "&#xe607;", "&#xe62e;", "&#xe62b;","&#xe629;","&#xe627;","&#xe626;"];
+const colors = ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722"]
+const icons = ["&#xe62f;", "&#xe614;", "&#xe610;", "&#xe612;", "&#xe611;", "&#xe606;", "&#xe608;", "&#xe605;", "&#xe613;", "&#xe749;", "&#xe607;", "&#xe62e;", "&#xe62b;", "&#xe629;", "&#xe627;", "&#xe626;"];
 
 var icon = eval('("' + icons[Math.floor(Math.random() * icons.length)].replace('&#x', '\\u').replace(';', '') + '")')
 var color = colors[Math.floor(Math.random() * colors.length)]
@@ -105,7 +105,11 @@ function update() {
     }
 
     // 定时更新日期
-    if (curHours === 23 && curMinutes === 59 && curSeconds === 59) {
+    // if (curHours === 23 && curMinutes === 59 && curSeconds === 59) {
+    //   currentDate();
+    // }
+    var beginDate = new Date(2019, 07, 01, 20, 13, 14);
+    if (curHours === beginDate.getHours() && curMinutes === beginDate.getMinutes() && curSeconds === beginDate.getSeconds() - 1) {
       currentDate();
     }
 
@@ -131,9 +135,22 @@ function getYMD(d1, d2) {
   var d1 = new Date(d1)
   var d2 = new Date(d2)
   var years = d2.getFullYear() - d1.getFullYear()
-  var months = d2.getMonth() - d1.getMonth()
+  var months = d2.getMonth() + 1 + (12 - (d1.getMonth() + 1))
   var days = d2.getDate() - d1.getDate()
+  if (d2.getMonth() < d1.getMonth()) {
+    years--
+  }
 
+  hours2 = d2.getHours()
+  hours1 = d1.getHours()
+  minutes2 = d2.getMinutes()
+  minutes1 = d1.getMinutes()
+  seconds2 = d2.getSeconds()
+  seconds1 = d1.getSeconds()
+
+  if (hours2 === hours1 && minutes2 === minutes1 && seconds2 === seconds1) {
+    days++
+  }
   return { years, months, days }
 }
 

@@ -24,6 +24,7 @@ const icons = ["&#xe62f;", "&#xe614;", "&#xe610;", "&#xe612;", "&#xe611;", "&#xe
 var icon = eval('("' + icons[Math.floor(Math.random() * icons.length)].replace('&#x', '\\u').replace(';', '') + '")')
 var color = colors[Math.floor(Math.random() * colors.length)]
 
+var beginDate = new Date('2019/08/01 20:13:14'); // 2019-08-01 20:13:14
 
 window.onload = function () {
   var canvas = document.getElementById("canvas");
@@ -108,10 +109,12 @@ function update() {
     // if (curHours === 23 && curMinutes === 59 && curSeconds === 59) {
     //   currentDate();
     // }
-    var beginDate = new Date(2019, 07, 01, 20, 13, 14);
-    if (curHours === beginDate.getHours() && curMinutes === beginDate.getMinutes() && curSeconds === beginDate.getSeconds() - 1) {
-      currentDate();
-    }
+
+    // if (curHours >= beginDate.getHours() && curMinutes >= beginDate.getMinutes() && curSeconds >= beginDate.getSeconds()) {
+    //   currentDate();
+    // }
+
+    currentDate();
 
     // 将要显示的时间设置为当前时间，达到显示的效果
     curShowTimeSeconds = nextShowTimeSeconds;
@@ -132,25 +135,42 @@ function getDays(d1, d2) {
 
 // 获取两个日期的差值(d2-d1)，返回年月日
 function getYMD(d1, d2) {
-  var d1 = new Date(d1)
-  var d2 = new Date(d2)
-  var years = d2.getFullYear() - d1.getFullYear()
-  var months = d2.getMonth() + 1 + (12 - (d1.getMonth() + 1))
-  var days = d2.getDate() - d1.getDate()
-  if (d2.getMonth() < d1.getMonth()) {
-    years--
-  }
+  // var d1 = new Date(d1)
+  // var d2 = new Date(d2)
+  // var years = Math.abs(d2.getFullYear() - d1.getFullYear())
+  // var months = Math.abs(d2.getMonth() + (12 - d1.getMonth() - 1) + 1)
+  // var days = Math.abs(d2.getDate() - d1.getDate())
 
-  hours2 = d2.getHours()
-  hours1 = d1.getHours()
-  minutes2 = d2.getMinutes()
-  minutes1 = d1.getMinutes()
-  seconds2 = d2.getSeconds()
-  seconds1 = d1.getSeconds()
+  // if (d2.getMonth() < d1.getMonth()) {
+  //   years--
+  // }
 
-  if (hours2 === hours1 && minutes2 === minutes1 && seconds2 === seconds1) {
-    days++
-  }
+  // hours2 = d2.getHours()
+  // hours1 = d1.getHours()
+  // minutes2 = d2.getMinutes()
+  // minutes1 = d1.getMinutes()
+  // seconds2 = d2.getSeconds()
+  // seconds1 = d1.getSeconds()
+
+  // if (hours2 >= hours1 && minutes2 >= minutes1 && seconds2 >= seconds1) {
+  //   days++
+  // }
+
+  // if (months >= 12) {
+  //   months = 0
+  // }
+
+  // Moment.js
+  // var d1 = moment(d1, "YYYY-MM-DD HH:mm:ss");
+  // var d2 = moment(d2, "YYYY-MM-DD HH:mm:ss");
+
+  var duration = moment.duration(moment(d2).diff(moment(d1)))
+  console.log(duration)
+
+  var years = duration.years()
+  var months = duration.months()
+  var days = duration.days()
+
   return { years, months, days }
 }
 
@@ -162,7 +182,7 @@ function currentDate() {
   var footer = document.getElementById("footer");
 
 
-  var beginDate = new Date(2019, 07, 01, 20, 13, 14); // 2019-08-01 22:13:14 ，月份要减一
+  // var beginDate = new Date('2019/08/01 10:51:00'); // 2019-08-01 22:13:14
   var curDate = new Date();
 
   var y = curDate.getFullYear();
@@ -181,6 +201,7 @@ function currentDate() {
 
   date.innerHTML = days + '天' + '<br/>(' + ymd.years + ' 年 ' + ymd.months + ' 个月 ' + ymd.days + ' 天)'
   footer.innerHTML = y2 + ' 年 ' + m2 + ' 月 ' + d2 + ' 日 ' + hour + ':' + minute + ':' + second + ' 至 ' + y + ' 年 ' + m + ' 月 ' + d + ' 日'
+  // footer.innerHTML = y2 + ' 年 ' + m2 + ' 月 ' + d2 + ' 日 ' + ' ~ ' + y + ' 年 ' + m + ' 月 ' + d + ' 日'
 }
 
 // 生成小球
